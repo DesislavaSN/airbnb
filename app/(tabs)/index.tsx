@@ -1,14 +1,25 @@
-import { StyleSheet } from 'react-native';
+import { Link, useRouter } from 'expo-router';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-
-export default function TabOneScreen() {
+export default function search() {
+    const router = useRouter();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <Link href="/(modals)/login" asChild>
+        <TouchableOpacity>
+          <Text>Login</Text>
+        </TouchableOpacity>
+      </Link>
+      <Link href="/(modals)/booking" asChild>
+        <TouchableOpacity>
+          <Text>Booking</Text>
+        </TouchableOpacity>
+      </Link>
+      <Link href="/listing/1779" asChild>
+        <TouchableOpacity>
+          <Text>Listing details page</Text>
+        </TouchableOpacity>
+      </Link>
     </View>
   );
 }
@@ -16,16 +27,6 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+  
 });

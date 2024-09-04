@@ -1,12 +1,49 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { ClerkLoaded, ClerkProvider, useAuth } from '@clerk/clerk-expo';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { TouchableOpacity } from 'react-native';
+import * as SecureStore from 'expo-secure-store'
 
-import { useColorScheme } from '@/components/useColorScheme';
+const clerkPublishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+if (!clerkPublishableKey) {
+  throw new Error(
+    'ERROR: Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env',
+  );
+};
+
+const tokenCache = {
+  async getToken(key: "string"){
+    try {
+      
+      // return SecureStore.getItemAsync(key);
+      const item = await SecureStore.getItemAsync(key);
+      if (item) {
+        console.log(`${key} was used 🔐 \n`);
+      } else {
+        console.log('No values stored under key: ' + key);
+      }
+      return item;
+    } catch (error) {
+      console.log('SecureStore get item error: ', error);
+      await SecureStore.deleteItemAsync(key);
+      return null;
+    }
+  },
+
+  async saveToken(key: "string", value:"string"){
+    try {
+      return SecureStore.setItemAsync(key, value);
+    } catch (error) {
+      console.log('Error in saveToken: ', error);
+      return;
+    }
+  }
+};
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,8 +60,9 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
+    'mon': require('../assets/fonts/Montserrat-Regular.ttf'),
+    'mon-sb': require('../assets/fonts/Montserrat-SemiBold.ttf'),
+    'mon-b': require('../assets/fonts/Montserrat-Bold.ttf'),
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -42,18 +80,72 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <ClerkProvider publishableKey={clerkPublishableKey}>
+      <ClerkLoaded>
+        <RootLayoutNav />
+       </ClerkLoaded>
+    </ClerkProvider>
+  );
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const router = useRouter();
+  const { isLoaded, isSignedIn } = useAuth();
+
+  useEffect(()=> {
+    if (isLoaded && !isSignedIn) {
+      router.push('/(modals)/login');
+    }
+    
+  },[isLoaded]);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
+    <Stack>
+      <Stack.Screen
+        name="(tabs)" 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen
+        name="(modals)/login" 
+        options={{
+          presentation: 'modal',
+          title: 'Login',
+          headerTitleStyle: {fontFamily: 'mon-sb'},
+          headerStyle: {backgroundColor: 'pink'},
+          headerTitleAlign:'center',
+          headerLeft: () => {
+            return (
+            <TouchableOpacity
+              onPress={() => router.back()}
+            >
+              <AntDesign name="close" size={24} color="black" />
+            </TouchableOpacity>);
+          }
+        }}
+      />
+      <Stack.Screen
+        name='listing/[id]'
+        // options={{ headerShown: false }}
+      />
+      <Stack.Screen name='(modals)/booking'
+        options={{
+          animation: 'fade',
+          presentation: 'transparentModal',
+          title: 'Booking',
+          headerTitleStyle: {fontFamily: 'mon-sb'},
+          headerStyle: {backgroundColor: 'skyblue'},
+          headerTitleAlign:'center',
+          headerLeft: () => {
+            return (
+            <TouchableOpacity
+              onPress={() => router.back()}
+            >
+              <AntDesign name="close" size={24} color="black" />
+            </TouchableOpacity>);
+          }
+        }}
+      />
+    </Stack>
   );
-}
+};
