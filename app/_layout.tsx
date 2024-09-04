@@ -81,7 +81,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ClerkProvider publishableKey={clerkPublishableKey}>
+    <ClerkProvider publishableKey={clerkPublishableKey} tokenCache={tokenCache} >
       <ClerkLoaded>
         <RootLayoutNav />
        </ClerkLoaded>
