@@ -17,7 +17,7 @@ if (!clerkPublishableKey) {
 };
 
 const tokenCache = {
-  async getToken(key: "string"){
+  async getToken(key: string){
     try {
       
       // return SecureStore.getItemAsync(key);
@@ -35,7 +35,7 @@ const tokenCache = {
     }
   },
 
-  async saveToken(key: "string", value:"string"){
+  async saveToken(key: string, value:string){
     try {
       return SecureStore.setItemAsync(key, value);
     } catch (error) {
@@ -82,9 +82,9 @@ export default function RootLayout() {
 
   return (
     <ClerkProvider publishableKey={clerkPublishableKey} tokenCache={tokenCache} >
-      <ClerkLoaded>
+      {/* <ClerkLoaded> */}
         <RootLayoutNav />
-       </ClerkLoaded>
+       {/* </ClerkLoaded> */}
     </ClerkProvider>
   );
 }
@@ -93,11 +93,11 @@ function RootLayoutNav() {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
 
+  // this useEffect is for: if the client is NOT authenticated the app will direct the client to login screen:
   useEffect(()=> {
     if (isLoaded && !isSignedIn) {
       router.push('/(modals)/login');
-    }
-    
+    };
   },[isLoaded]);
 
   return (
