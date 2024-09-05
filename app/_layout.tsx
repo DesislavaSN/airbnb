@@ -81,24 +81,27 @@ export default function RootLayout() {
   }
 
   return (
-    <ClerkProvider publishableKey={clerkPublishableKey} tokenCache={tokenCache} >
-      {/* <ClerkLoaded> */}
-        <RootLayoutNav />
-       {/* </ClerkLoaded> */}
-    </ClerkProvider>
+    // <ClerkProvider publishableKey={clerkPublishableKey} tokenCache={tokenCache} >
+      // <ClerkLoaded> 
+       <RootLayoutNav />
+      // </ClerkLoaded> 
+    // </ClerkProvider>
   );
 }
 
 function RootLayoutNav() {
   const router = useRouter();
-  const { isLoaded, isSignedIn } = useAuth();
+  // const { isLoaded, isSignedIn } = useAuth();
 
-  // this useEffect is for: if the client is NOT authenticated the app will direct the client to login screen:
-  useEffect(()=> {
-    if (isLoaded && !isSignedIn) {
-      router.push('/(modals)/login');
-    };
-  },[isLoaded]);
+  /*
+  - this useEffect is for: if the client is NOT authenticated 
+  the app will direct the client to login screen:
+  */ 
+  // useEffect(()=> {
+  //   if (isLoaded && !isSignedIn) {
+  //     router.push('/(modals)/login');
+  //   };
+  // },[isLoaded]);
 
   return (
     <Stack>
