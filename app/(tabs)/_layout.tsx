@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
 import Colors from '@/constants/Colors';
 import Feather from '@expo/vector-icons/Feather';
 import Entypo from '@expo/vector-icons/Entypo';import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
@@ -17,7 +16,6 @@ export default function TabLayout() {
           fontFamily: 'mon-sb'
         } 
       }}
-      
     >
       <Tabs.Screen 
         name='index'
@@ -26,7 +24,6 @@ export default function TabLayout() {
           tabBarIconStyle: {marginTop: 3,},
           tabBarLabel:'Search',
           tabBarLabelStyle: {fontSize: 12, fontWeight: 700, paddingBottom: 7,}
-
         }}
       />
       <Tabs.Screen 
@@ -56,7 +53,6 @@ export default function TabLayout() {
           tabBarLabelStyle: {fontSize: 12, fontWeight: 700, paddingBottom: 7,}
         }}
       />
-      
       <Tabs.Screen 
         name='profile'
         options={{
@@ -66,8 +62,6 @@ export default function TabLayout() {
           tabBarLabelStyle: {fontSize: 12, fontWeight: 700, paddingBottom: 7,}
         }}
       />
-      
-
     </Tabs>
   );
 }

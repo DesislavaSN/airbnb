@@ -82,9 +82,9 @@ export default function RootLayout() {
 
   return (
     // <ClerkProvider publishableKey={clerkPublishableKey} tokenCache={tokenCache} >
-      // <ClerkLoaded> 
+    //   <ClerkLoaded> 
        <RootLayoutNav />
-      // </ClerkLoaded> 
+     // </ClerkLoaded> 
     // </ClerkProvider>
   );
 }
@@ -115,7 +115,7 @@ function RootLayoutNav() {
           presentation: 'modal',
           title: 'Login',
           headerTitleStyle: {fontFamily: 'mon-sb'},
-          headerStyle: {backgroundColor: 'pink'},
+          headerStyle: {backgroundColor: 'white'},
           headerTitleAlign:'center',
           headerLeft: () => {
             return (
