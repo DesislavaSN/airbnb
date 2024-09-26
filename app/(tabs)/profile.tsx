@@ -13,9 +13,12 @@ export default function explore() {
       <TouchableOpacity onPress={() => {
         // signOut; 
         console.log('signing out !');
-        router.push('/login');
       }}>
         <Text>Log out</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => router.push('/login')}>
+        <Text>Login In</Text>
       </TouchableOpacity>
     </View>
   );

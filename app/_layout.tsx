@@ -113,7 +113,7 @@ function RootLayoutNav() {
         name="(modals)/login" 
         options={{
           presentation: 'modal',
-          title: 'Login',
+          title: 'LogIn or SignUp',
           headerTitleStyle: {fontFamily: 'mon-sb'},
           headerStyle: {backgroundColor: 'white'},
           headerTitleAlign:'center',
